@@ -36,3 +36,5 @@ VueRouter.install = function(vue) {
     }
   })
 }
+
+exprt default VueRouter
