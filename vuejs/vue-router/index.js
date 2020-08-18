@@ -27,12 +27,24 @@ VueRouter.install = function(vue) {
   vue.mixin({
     beforeCreate() {
       if (this.$options && this.$options.router) {
-        this.__routerRoot = this
-        this.__router = this.$options.router
-        vue.util.defineReactive(this, '__route', this.__router.current)
+        this._routerRoot = this
+        this._router = this.$options.router
+        vue.util.defineReactive(this, '_route', this._router.current)
       } else {
-        this.__routerRoot = this.$parent && this.$parent.__routerRoot
+        this._routerRoot = this.$parent && this.$parent._routerRoot
       }
+
+      Object.defineProperty(this, '$router', {
+        get() {
+          return this._routerRoot._router
+        }
+      })
+
+      Object.defineProperty(this, '$route', {
+        get() {
+          return this._routerRoot._route
+        }
+      })
     }
   })
 }
